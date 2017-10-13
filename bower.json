@@ -1,0 +1,23 @@
+{
+  "name": "rodrigobutta/jquery-living-table",
+  "version": "1.0.0",
+  "description": "Table with editable and ajax actions.",
+  "main": "jquery.living.table.js",
+  "license": "MIT",
+  "homepage": "https://github.com/rodrigobutta/jquery-living-table",
+  "keywords": [
+    "jquery",
+    "editable",
+    "bootstrap",
+    "table",
+    "inline",
+    "ajax"
+  ],
+  "ignore": [
+    "*.md",
+    "*.php"
+  ],
+  "dependencies": {
+    "jquery": "jquery/jquery"
+  }
+}
