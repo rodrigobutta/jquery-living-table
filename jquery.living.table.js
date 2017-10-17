@@ -379,7 +379,7 @@ if (typeof jQuery === 'undefined') {
             // agregar campo de id a la llamada
             if(settings.rowIdField.enabled){
 
-                var row = $table.find('.livingtable-input').closest('tr');
+                var row = $table.find('.livingtable-input:enabled').closest('tr');
                 var id = row.attr(settings.rowIdField.trAttribute);
                     serialize = serialize + '&' + settings.rowIdField.fieldName + '=' + id;
 
