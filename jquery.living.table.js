@@ -111,44 +111,53 @@ if (typeof jQuery === 'undefined') {
                 },
                 editable: function() {
                     for (var i = 0; i < settings.columns.editable.length; i++) {
+
                         var $td = $table.find('tbody td:nth-child(' + (parseInt(settings.columns.editable[i][0]) + 1) + ')');
-
                         $td.each(function() {
-                            // Get text of this cell.
-                            var text = $(this).text();
 
-                            // Add pointer as cursor.
-                            if (!settings.editButton) {
-                                $(this).css('cursor', 'pointer');
+
+                            if(!$(this).hasClass('disabled')){
+
+                                // Get text of this cell.
+                                var text = $(this).text();
+
+                                // Add pointer as cursor.
+                                if (!settings.editButton) {
+                                    $(this).css('cursor', 'pointer');
+                                }
+
+                                // Create span element.
+                                var span = '<span class="livingtable-span">' + text + '</span>';
+
+                                // Check if exists the third parameter of editable array.
+                                if (typeof settings.columns.editable[i][2] !== 'undefined') {
+                                    // Create select element.
+                                    var input = '<select class="livingtable-input ' + settings.inputClass + '" name="' + settings.columns.editable[i][1] + '" style="display: none;" disabled>';
+
+                                    // Create options for select element.
+                                    $.each(jQuery.parseJSON(settings.columns.editable[i][2]), function(index, value) {
+                                        if (text === value) {
+                                            input += '<option value="' + index + '" selected>' + value + '</option>';
+                                        } else {
+                                            input += '<option value="' + index + '">' + value + '</option>';
+                                        }
+                                    });
+
+                                    // Create last piece of select element.
+                                    input += '</select>';
+                                } else {
+                                    // Create text input element.
+                                    var input = '<input class="livingtable-input ' + settings.inputClass + '" type="text" name="' + settings.columns.editable[i][1] + '" value="' + $(this).text() + '" style="display: none;" disabled>';
+                                }
+
+                                // Add elements and class "view" to table cell.
+                                $(this).html(span + input);
+                                $(this).addClass('livingtable-view-mode');
+
+
                             }
 
-                            // Create span element.
-                            var span = '<span class="livingtable-span">' + text + '</span>';
 
-                            // Check if exists the third parameter of editable array.
-                            if (typeof settings.columns.editable[i][2] !== 'undefined') {
-                                // Create select element.
-                                var input = '<select class="livingtable-input ' + settings.inputClass + '" name="' + settings.columns.editable[i][1] + '" style="display: none;" disabled>';
-
-                                // Create options for select element.
-                                $.each(jQuery.parseJSON(settings.columns.editable[i][2]), function(index, value) {
-                                    if (text === value) {
-                                        input += '<option value="' + index + '" selected>' + value + '</option>';
-                                    } else {
-                                        input += '<option value="' + index + '">' + value + '</option>';
-                                    }
-                                });
-
-                                // Create last piece of select element.
-                                input += '</select>';
-                            } else {
-                                // Create text input element.
-                                var input = '<input class="livingtable-input ' + settings.inputClass + '" type="text" name="' + settings.columns.editable[i][1] + '" value="' + $(this).text() + '" style="display: none;" disabled>';
-                            }
-
-                            // Add elements and class "view" to table cell.
-                            $(this).html(span + input);
-                            $(this).addClass('livingtable-view-mode');
                        });
                     }
                 },
@@ -379,7 +388,7 @@ if (typeof jQuery === 'undefined') {
             // agregar campo de id a la llamada
             if(settings.rowIdField.enabled){
 
-                var row = $table.find('.livingtable-input:enabled').closest('tr');
+                var row = $table.find('.livingtable-input').closest('tr');
                 var id = row.attr(settings.rowIdField.trAttribute);
                     serialize = serialize + '&' + settings.rowIdField.fieldName + '=' + id;
 
