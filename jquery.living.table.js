@@ -284,7 +284,7 @@ if (typeof jQuery === 'undefined') {
             },
             submit: function(td) {
                 // Send AJAX request to server.
-                var ajaxResult = ajax(settings.buttons.edit.action);
+                var ajaxResult = ajax(settings.buttons.edit.action,td);
 
                 if (ajaxResult === false) {
                     return;
@@ -325,7 +325,7 @@ if (typeof jQuery === 'undefined') {
                 // Enable identifier hidden input.
                 $(td).parent('tr').find('input.livingtable-identifier').attr('disabled', false);
                 // Send AJAX request to server.
-                var ajaxResult = ajax(settings.buttons.delete.action);
+                var ajaxResult = ajax(settings.buttons.delete.action,td);
                 // Disable identifier hidden input.
                 $(td).parents('tr').find('input.livingtable-identifier').attr('disabled', true);
 
@@ -356,7 +356,7 @@ if (typeof jQuery === 'undefined') {
                 // Enable identifier hidden input.
                 $(td).parent('tr').find('input.livingtable-identifier').attr('disabled', false);
                 // Send AJAX request to server.
-                var ajaxResult = ajax(settings.buttons.restore.action);
+                var ajaxResult = ajax(settings.buttons.restore.action,td);
                 // Disable identifier hidden input.
                 $(td).parents('tr').find('input.livingtable-identifier').attr('disabled', true);
 
@@ -380,18 +380,16 @@ if (typeof jQuery === 'undefined') {
          *
          * @param {string} action
          */
-        function ajax(action)
+        function ajax(action,td)
         {
 
             var serialize = $table.find('.livingtable-input').serialize() + '&action=' + action;
 
             // agregar campo de id a la llamada
             if(settings.rowIdField.enabled){
-
-                var row = $table.find('.livingtable-input').closest('tr');
+                var row = td.closest('tr');
                 var id = row.attr(settings.rowIdField.trAttribute);
                     serialize = serialize + '&' + settings.rowIdField.fieldName + '=' + id;
-
             }
 
             var result = settings.onAjax(action, serialize);
